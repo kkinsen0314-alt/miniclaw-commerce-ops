@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "record_type": "commerce_ops_agent_eval_run",
+  "template_status": "template_not_executed",
+  "status": "not_executed",
+  "generated_at": null,
+  "run_identity": {
+    "eval_run_id": null,
+    "baseline_or_candidate": null,
+    "executed_by": null
+  },
+  "dataset": {
+    "path": "evals/commerce-ops-agent-eval-cases-v1.json",
+    "sha256": null,
+    "fixture_set_sha256": null,
+    "declared_case_count": 30,
+    "runnable_case_count": null
+  },
+  "system_versions": {
+    "files": {},
+    "model": {
+      "provider": "not_configured",
+      "model_id": "not_configured",
+      "model_snapshot": null,
+      "execution_status": "not_executed"
+    },
+    "prompt_runtime": {
+      "status": "not_executed"
+    },
+    "tool_runtime": {
+      "status": "not_executed"
+    },
+    "context_runtime": {
+      "status": "not_executed",
+      "memory_enabled": null
+    }
+  },
+  "execution_config": {
+    "case_isolation": "trace_per_case",
+    "repeats_per_case": 1,
+    "judge_mode": "not_used_unless_recorded_per_case",
+    "sensitive_data_redaction_enabled": true
+  },
+  "aggregate": {
+    "counts": {
+      "total": 30,
+      "completed": 0,
+      "not_run": 30,
+      "run_error": 0,
+      "manual_review": 0,
+      "hard_gates_passed_not_soft_scored": 0,
+      "passed": 0,
+      "failed": 0
+    },
+    "rates": {
+      "hard_gate_pass_rate_among_decided_gates": null,
+      "final_case_pass_rate": null
+    },
+    "category_outcomes": {},
+    "hard_gate_failure_counts": {
+      "H01": 0,
+      "H02": 0,
+      "H03": 0,
+      "H04": 0,
+      "H05": 0,
+      "H06": 0,
+      "H07": 0,
+      "H08": 0,
+      "H09": 0,
+      "H10": 0,
+      "H11": 0,
+      "H12": 0
+    },
+    "hard_gate_manual_review_counts": {
+      "H01": 0,
+      "H02": 0,
+      "H03": 0,
+      "H04": 0,
+      "H05": 0,
+      "H06": 0,
+      "H07": 0,
+      "H08": 0,
+      "H09": 0,
+      "H10": 0,
+      "H11": 0,
+      "H12": 0
+    },
+    "critical_incidents": []
+  },
+  "performance": {
+    "end_to_end_latency_ms": {
+      "p50": null,
+      "p95": null,
+      "max": null
+    },
+    "tool_latency_ms": {},
+    "tokens": {
+      "input": null,
+      "output": null,
+      "reasoning": null,
+      "total": null
+    },
+    "cost": {
+      "estimated_total": null,
+      "currency": null,
+      "pricing_source": null
+    },
+    "unavailable_metric_reasons": []
+  },
+  "case_results": [],
+  "release_decision": {
+    "status": "not_evaluated",
+    "thresholds_version": "EVALUATION-RUBRIC-v1",
+    "blockers": [
+      "没有 30 条已记录 Agent 轨迹。"
+    ],
+    "warnings": [],
+    "observed_threshold_metrics": {},
+    "reviewed_by": null,
+    "reviewed_at": null
+  },
+  "evidence_boundary": {
+    "executor_scored_recorded_traces": false,
+    "provider_configured_by_executor": false,
+    "model_called_by_executor": false,
+    "agent_execution_inferred_from_fixtures": false,
+    "semantic_gates_require_recorded_human_or_judge_review": true
+  }
+}
+

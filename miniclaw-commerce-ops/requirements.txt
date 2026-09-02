@@ -1,0 +1,10 @@
+fastapi>=0.141,<1
+httpx>=0.28,<1
+jsonschema>=4.26,<5
+mcp>=1.29,<2
+openpyxl>=3.1,<4
+pandas>=2.3,<3
+pydantic>=2.13,<3
+python-multipart>=0.0.20,<1
+uvicorn>=0.40,<1
+xlrd>=2.0,<3

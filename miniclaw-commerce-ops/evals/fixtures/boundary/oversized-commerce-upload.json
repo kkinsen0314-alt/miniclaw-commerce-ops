@@ -1,0 +1,9 @@
+{
+  "fixture_type": "generated_upload",
+  "file_name": "synthetic-commerce-export.xlsx",
+  "size_bytes": 22020097,
+  "max_allowed_bytes": 20971520,
+  "materialized_on_disk": false,
+  "synthetic": true,
+  "purpose": "Exercise PAYLOAD_TOO_LARGE without storing a large binary fixture."
+}

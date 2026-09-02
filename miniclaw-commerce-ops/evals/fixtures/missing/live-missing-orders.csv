@@ -1,0 +1,3 @@
+live_session_id_hash,account_id_hash,started_at,viewers,watch_seconds,interactions,product_clicks,leads
+live_eval_001,account_eval_a,2026-08-03T12:00:00Z,500,92000,320,84,23
+live_eval_002,account_eval_a,2026-08-04T12:00:00Z,460,81000,271,70,19

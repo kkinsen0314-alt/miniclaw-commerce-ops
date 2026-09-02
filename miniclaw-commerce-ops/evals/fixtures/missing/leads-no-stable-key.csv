@@ -1,0 +1,3 @@
+channel,lead_source,created_at,sales_owner_id_hash,lead_stage
+short_video,content_card,2026-08-05T08:00:00Z,owner_eval_a,contacted
+live,live_card,2026-08-05T09:00:00Z,owner_eval_b,new

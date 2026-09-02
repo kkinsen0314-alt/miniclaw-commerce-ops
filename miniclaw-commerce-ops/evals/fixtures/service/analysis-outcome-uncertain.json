@@ -1,0 +1,10 @@
+{
+  "scenario": "commerce_analysis_uncertain",
+  "tool_name": "analyze_live_commerce_data",
+  "error_code": "ANALYSIS_OUTCOME_UNCERTAIN",
+  "outcome_uncertain": true,
+  "side_effect_state": "possible",
+  "max_tool_calls": 1,
+  "auto_retry": false,
+  "required_recovery": "check workflow_run_id and service_run_id before any manual rerun"
+}

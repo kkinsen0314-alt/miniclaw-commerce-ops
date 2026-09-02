@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "record_type": "commerce_ops_case_trace",
+  "template_status": "template_not_executed",
+  "case_id": "NORMAL-001",
+  "execution_mode": "recorded_external_runner",
+  "started_at": null,
+  "finished_at": null,
+  "latency_ms": null,
+  "system_versions": {
+    "prompt": {
+      "files": [],
+      "assembled_prompt_sha256": null
+    },
+    "model": {
+      "provider": null,
+      "model_id": null,
+      "snapshot": null
+    },
+    "tool_descriptions": {
+      "files": [],
+      "sha256": null
+    },
+    "context_strategy": {
+      "file": ".pi/subagents.json",
+      "sha256": null,
+      "memory_enabled": null
+    },
+    "code": {
+      "revision": null,
+      "working_tree_state": null
+    }
+  },
+  "observed": {
+    "route": null,
+    "terminal_status": null,
+    "dispatched_agents": [],
+    "tool_calls": [
+      {
+        "sequence": 1,
+        "actor": null,
+        "tool_name": null,
+        "arguments_redacted": {},
+        "started_at": null,
+        "finished_at": null,
+        "latency_ms": null,
+        "result_status": null,
+        "result_excerpt_redacted": null,
+        "error_code": null,
+        "service_run_id": null
+      }
+    ],
+    "confirmation_requested": null,
+    "workflow_run_id": null,
+    "analysis_run_ids": [],
+    "service_run_ids": [],
+    "run_id_missing_reason": null,
+    "dataset_manifests": [],
+    "evidence": [],
+    "findings": [],
+    "actions": [],
+    "response_text_redacted": null,
+    "response_schema_valid": null,
+    "claim_boundaries": {
+      "facts_hypotheses_missing_evidence_separated": null
+    },
+    "status_boundaries": {
+      "synthetic_boundary_preserved": null,
+      "status_boundary_preserved": null,
+      "capability_boundary_preserved": null
+    },
+    "external_actions": [],
+    "configuration_changes": [],
+    "recovery_fields": [],
+    "semantic_review": {
+      "status": "not_reviewed",
+      "reviewer": null,
+      "must_include": {},
+      "must_not_include": {},
+      "notes": null
+    }
+  },
+  "soft_scores": {
+    "intent_and_routing": null,
+    "groundedness": null,
+    "completeness": null,
+    "actionability": null,
+    "clarity": null,
+    "scorer": null,
+    "reasons": {}
+  },
+  "tokens": {
+    "input": null,
+    "output": null,
+    "reasoning": null,
+    "total": null
+  },
+  "estimated_cost": null,
+  "unavailable_metric_reasons": [
+    "未执行真实模型时 token、成本和端到端延迟必须为 null 并说明原因。"
+  ]
+}
+

@@ -1,0 +1,793 @@
+{
+  "bundle_type": "commerce_ops_contract_test_bundle",
+  "synthetic": true,
+  "normalized_request": {
+    "schema_version": "1.0",
+    "message_type": "commerce_ops_run_request",
+    "workflow_run_id": "wf_commerce_synthetic_001",
+    "requested_at": "2026-08-30T12:30:00+08:00",
+    "objective": "使用合成数据验证短视频、直播、线索跟进与订单转化的跨域证据链。",
+    "dataset_refs": [
+      "ds_video_001",
+      "ds_live_001",
+      "ds_lead_001",
+      "ds_followup_001",
+      "ds_order_001"
+    ],
+    "requested_domains": [
+      "content_growth",
+      "live_conversion",
+      "attribution_leads"
+    ],
+    "requested_dimensions": [
+      "account",
+      "content",
+      "live_session",
+      "channel",
+      "lead_source",
+      "sales_owner",
+      "order_status"
+    ],
+    "time_range": {
+      "start": "2026-08-01T00:00:00+08:00",
+      "end": "2026-08-08T00:00:00+08:00"
+    },
+    "delivery": {
+      "language": "zh-CN",
+      "format": "structured_json",
+      "top_n": 10,
+      "include_actions": true
+    },
+    "constraints": [
+      "所有数据均为合成样例，不得表述为真实经营结果。",
+      "没有稳定关联键时不得进行跨域归因。",
+      "没有成本字段时不得计算 ROI。"
+    ],
+    "synthetic": true
+  },
+  "dataset_manifests": [
+    {
+      "schema_version": "1.0",
+      "message_type": "dataset_manifest",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "dataset_id": "ds_video_001",
+      "dataset_type": "short_video",
+      "source_name": "synthetic-short-video.csv",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "synthetic": true,
+      "fields": [
+        {
+          "name": "content_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏内容标识。"
+        },
+        {
+          "name": "account_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏账号标识。"
+        },
+        {
+          "name": "click_id_hash",
+          "data_type": "string",
+          "nullable": true,
+          "semantic_role": "relationship_key",
+          "description": "用于连接内容点击与线索的脱敏标识。"
+        },
+        {
+          "name": "published_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "semantic_role": "timestamp",
+          "description": "内容发布时间。"
+        },
+        {
+          "name": "impressions",
+          "data_type": "integer",
+          "nullable": false,
+          "semantic_role": "metric",
+          "description": "曝光次数。"
+        },
+        {
+          "name": "clicks",
+          "data_type": "integer",
+          "nullable": false,
+          "semantic_role": "metric",
+          "description": "有效点击次数。"
+        }
+      ],
+      "available_dimensions": ["account", "content", "publish_time"],
+      "relationship_keys": [
+        {
+          "field": "content_id_hash",
+          "entity_type": "content",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["short_video"],
+          "hashed": true,
+          "note": "只用于同口径内容聚合。"
+        },
+        {
+          "field": "click_id_hash",
+          "entity_type": "click",
+          "stable": true,
+          "coverage_ratio": 0.84,
+          "target_dataset_types": ["channel_lead"],
+          "hashed": true,
+          "note": "覆盖率不足部分保留为 missing_evidence。"
+        }
+      ],
+      "data_quality": {
+        "status": "pass",
+        "row_count": 60,
+        "duplicate_rows": 0,
+        "missing_required_fields": [],
+        "warnings": []
+      },
+      "analysis_readiness": {
+        "cross_domain_attribution": "allowed",
+        "roi_calculation": "blocked",
+        "reasons": ["存在稳定 click_id_hash；未提供成本字段。"]
+      },
+      "contains_sensitive_data": false,
+      "redaction_applied": true
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "dataset_manifest",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "dataset_id": "ds_live_001",
+      "dataset_type": "live_session",
+      "source_name": "synthetic-live-session.csv",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "synthetic": true,
+      "fields": [
+        {
+          "name": "live_session_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏直播场次标识。"
+        },
+        {
+          "name": "account_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏账号标识。"
+        },
+        {
+          "name": "lead_id_hash",
+          "data_type": "string",
+          "nullable": true,
+          "semantic_role": "relationship_key",
+          "description": "直播留资产生的脱敏线索标识。"
+        },
+        {
+          "name": "started_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "semantic_role": "timestamp",
+          "description": "开播时间。"
+        },
+        {
+          "name": "viewers",
+          "data_type": "integer",
+          "nullable": false,
+          "semantic_role": "metric",
+          "description": "有效观看人数。"
+        },
+        {
+          "name": "leads",
+          "data_type": "integer",
+          "nullable": false,
+          "semantic_role": "metric",
+          "description": "直播留资数。"
+        }
+      ],
+      "available_dimensions": ["account", "live_session", "channel"],
+      "relationship_keys": [
+        {
+          "field": "live_session_id_hash",
+          "entity_type": "live_session",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["live_session"],
+          "hashed": true,
+          "note": "用于场次级聚合。"
+        },
+        {
+          "field": "lead_id_hash",
+          "entity_type": "lead",
+          "stable": true,
+          "coverage_ratio": 0.91,
+          "target_dataset_types": ["channel_lead", "sales_followup", "order"],
+          "hashed": true,
+          "note": "仅对覆盖记录进行直播至线索关联。"
+        }
+      ],
+      "data_quality": {
+        "status": "pass",
+        "row_count": 20,
+        "duplicate_rows": 0,
+        "missing_required_fields": [],
+        "warnings": []
+      },
+      "analysis_readiness": {
+        "cross_domain_attribution": "allowed",
+        "roi_calculation": "blocked",
+        "reasons": ["lead_id_hash 可用于覆盖记录关联；未提供成本字段。"]
+      },
+      "contains_sensitive_data": false,
+      "redaction_applied": true
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "dataset_manifest",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "dataset_id": "ds_lead_001",
+      "dataset_type": "channel_lead",
+      "source_name": "synthetic-channel-lead.csv",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "synthetic": true,
+      "fields": [
+        {
+          "name": "lead_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏线索标识。"
+        },
+        {
+          "name": "click_id_hash",
+          "data_type": "string",
+          "nullable": true,
+          "semantic_role": "relationship_key",
+          "description": "用于连接短视频点击的脱敏标识。"
+        },
+        {
+          "name": "sales_owner_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏销售负责人标识。"
+        },
+        {
+          "name": "channel",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "dimension",
+          "description": "渠道分类。"
+        },
+        {
+          "name": "lead_source",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "dimension",
+          "description": "线索来源分类。"
+        },
+        {
+          "name": "created_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "semantic_role": "timestamp",
+          "description": "线索创建时间。"
+        }
+      ],
+      "available_dimensions": ["channel", "lead_source", "sales_owner"],
+      "relationship_keys": [
+        {
+          "field": "lead_id_hash",
+          "entity_type": "lead",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["live_session", "sales_followup", "order"],
+          "hashed": true,
+          "note": "用于线索、跟进和订单覆盖记录关联。"
+        },
+        {
+          "field": "click_id_hash",
+          "entity_type": "click",
+          "stable": true,
+          "coverage_ratio": 0.84,
+          "target_dataset_types": ["short_video"],
+          "hashed": true,
+          "note": "覆盖率不足部分不强行归因。"
+        },
+        {
+          "field": "sales_owner_id_hash",
+          "entity_type": "sales_owner",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["sales_followup"],
+          "hashed": true,
+          "note": "只用于负责人维度聚合，不评价个人能力。"
+        }
+      ],
+      "data_quality": {
+        "status": "pass",
+        "row_count": 50,
+        "duplicate_rows": 0,
+        "missing_required_fields": [],
+        "warnings": []
+      },
+      "analysis_readiness": {
+        "cross_domain_attribution": "allowed",
+        "roi_calculation": "blocked",
+        "reasons": ["线索关联键可用；未提供成本字段。"]
+      },
+      "contains_sensitive_data": false,
+      "redaction_applied": true
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "dataset_manifest",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "dataset_id": "ds_followup_001",
+      "dataset_type": "sales_followup",
+      "source_name": "synthetic-sales-followup.csv",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "synthetic": true,
+      "fields": [
+        {
+          "name": "lead_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏线索标识。"
+        },
+        {
+          "name": "sales_owner_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏销售负责人标识。"
+        },
+        {
+          "name": "assigned_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "semantic_role": "timestamp",
+          "description": "线索分配时间。"
+        },
+        {
+          "name": "first_followup_at",
+          "data_type": "datetime",
+          "nullable": true,
+          "semantic_role": "timestamp",
+          "description": "首次跟进时间。"
+        },
+        {
+          "name": "followup_count",
+          "data_type": "integer",
+          "nullable": false,
+          "semantic_role": "metric",
+          "description": "累计跟进次数。"
+        }
+      ],
+      "available_dimensions": ["sales_owner"],
+      "relationship_keys": [
+        {
+          "field": "lead_id_hash",
+          "entity_type": "lead",
+          "stable": true,
+          "coverage_ratio": 0.96,
+          "target_dataset_types": ["channel_lead", "order"],
+          "hashed": true,
+          "note": "用于线索跟进与订单覆盖记录关联。"
+        },
+        {
+          "field": "sales_owner_id_hash",
+          "entity_type": "sales_owner",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["channel_lead"],
+          "hashed": true,
+          "note": "只用于聚合跟进及时性。"
+        }
+      ],
+      "data_quality": {
+        "status": "partial",
+        "row_count": 48,
+        "duplicate_rows": 0,
+        "missing_required_fields": [],
+        "warnings": ["2 条线索缺少跟进记录。"]
+      },
+      "analysis_readiness": {
+        "cross_domain_attribution": "allowed",
+        "roi_calculation": "blocked",
+        "reasons": ["lead_id_hash 可用；跟进记录不完整；未提供成本字段。"]
+      },
+      "contains_sensitive_data": false,
+      "redaction_applied": true
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "dataset_manifest",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "dataset_id": "ds_order_001",
+      "dataset_type": "order",
+      "source_name": "synthetic-order.csv",
+      "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "synthetic": true,
+      "fields": [
+        {
+          "name": "order_id_hash",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "relationship_key",
+          "description": "脱敏订单标识。"
+        },
+        {
+          "name": "lead_id_hash",
+          "data_type": "string",
+          "nullable": true,
+          "semantic_role": "relationship_key",
+          "description": "用于覆盖记录关联的脱敏线索标识。"
+        },
+        {
+          "name": "ordered_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "semantic_role": "timestamp",
+          "description": "订单创建时间。"
+        },
+        {
+          "name": "paid_amount",
+          "data_type": "number",
+          "nullable": true,
+          "semantic_role": "metric",
+          "description": "合成支付金额，仅用于契约测试。"
+        },
+        {
+          "name": "order_status",
+          "data_type": "string",
+          "nullable": false,
+          "semantic_role": "dimension",
+          "description": "订单状态。"
+        }
+      ],
+      "available_dimensions": ["order_status"],
+      "relationship_keys": [
+        {
+          "field": "order_id_hash",
+          "entity_type": "order",
+          "stable": true,
+          "coverage_ratio": 1.0,
+          "target_dataset_types": ["order"],
+          "hashed": true,
+          "note": "用于订单去重。"
+        },
+        {
+          "field": "lead_id_hash",
+          "entity_type": "lead",
+          "stable": true,
+          "coverage_ratio": 0.88,
+          "target_dataset_types": ["channel_lead", "sales_followup", "live_session"],
+          "hashed": true,
+          "note": "仅对覆盖订单进行线索归因。"
+        }
+      ],
+      "data_quality": {
+        "status": "partial",
+        "row_count": 12,
+        "duplicate_rows": 0,
+        "missing_required_fields": [],
+        "warnings": ["部分订单没有 lead_id_hash，不能强行归因。"]
+      },
+      "analysis_readiness": {
+        "cross_domain_attribution": "allowed",
+        "roi_calculation": "blocked",
+        "reasons": ["覆盖订单可以关联；缺少成本字段，ROI 被阻塞。"]
+      },
+      "contains_sensitive_data": false,
+      "redaction_applied": true
+    }
+  ],
+  "analysis_packets": [
+    {
+      "schema_version": "1.0",
+      "message_type": "analysis_packet",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "analysis_run_id": "analysis_content_001",
+      "agent_role": "content_growth_analyst",
+      "domain": "content_growth",
+      "terminal_status": "completed",
+      "dataset_ids": ["ds_video_001"],
+      "service_calls": [
+        {
+          "tool_name": "analyze_short_video_data",
+          "caller_role": "content_growth_analyst",
+          "attempt": 1,
+          "service_run_id": "srv_content_001",
+          "outcome": "success",
+          "duration_ms": 18.2,
+          "side_effect_state": "none",
+          "automatic_retry": false
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_content_click_rate_001",
+          "dataset_id": "ds_video_001",
+          "service_run_id": "srv_content_001",
+          "metric_name": "content_click_rate",
+          "metric_value": 0.024,
+          "unit": "ratio",
+          "scope": {"time_range": "2026-08-01/2026-08-08"},
+          "calculation": "clicks / impressions",
+          "statement": "合成短视频样例的点击率为 2.4%。",
+          "synthetic": true,
+          "data_quality_status": "pass"
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "finding_content_click_001",
+          "category": "content",
+          "severity": "attention",
+          "statement": "合成样例中存在高曝光但点击承接偏弱的内容。",
+          "evidence_ids": ["ev_content_click_rate_001"],
+          "confidence": 0.88,
+          "limitations": ["当前仅验证同口径合成数据，不代表真实账号表现。"]
+        }
+      ],
+      "missing_evidence": [],
+      "assumptions": []
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "analysis_packet",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "analysis_run_id": "analysis_live_001",
+      "agent_role": "live_conversion_analyst",
+      "domain": "live_conversion",
+      "terminal_status": "completed",
+      "dataset_ids": ["ds_live_001"],
+      "service_calls": [
+        {
+          "tool_name": "analyze_live_commerce_data",
+          "caller_role": "live_conversion_analyst",
+          "attempt": 1,
+          "service_run_id": "srv_live_001",
+          "outcome": "success",
+          "duration_ms": 21.6,
+          "side_effect_state": "none",
+          "automatic_retry": false
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_live_lead_rate_001",
+          "dataset_id": "ds_live_001",
+          "service_run_id": "srv_live_001",
+          "metric_name": "live_lead_rate",
+          "metric_value": 0.08,
+          "unit": "ratio",
+          "scope": {"time_range": "2026-08-01/2026-08-08"},
+          "calculation": "leads / viewers",
+          "statement": "合成直播样例的观看至留资率为 8.0%。",
+          "synthetic": true,
+          "data_quality_status": "pass"
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "finding_live_lead_001",
+          "category": "live_funnel",
+          "severity": "attention",
+          "statement": "合成样例中直播观看到留资环节需要进一步按场次复核。",
+          "evidence_ids": ["ev_live_lead_rate_001"],
+          "confidence": 0.86,
+          "limitations": ["当前契约没有声明业务目标阈值，不能判断绝对好坏。"]
+        }
+      ],
+      "missing_evidence": [],
+      "assumptions": []
+    },
+    {
+      "schema_version": "1.0",
+      "message_type": "analysis_packet",
+      "workflow_run_id": "wf_commerce_synthetic_001",
+      "analysis_run_id": "analysis_attribution_001",
+      "agent_role": "attribution_lead_analyst",
+      "domain": "attribution_leads",
+      "terminal_status": "partial",
+      "dataset_ids": ["ds_lead_001", "ds_followup_001", "ds_order_001"],
+      "service_calls": [
+        {
+          "tool_name": "analyze_attribution_and_leads",
+          "caller_role": "attribution_lead_analyst",
+          "attempt": 1,
+          "service_run_id": "srv_attribution_001",
+          "outcome": "success",
+          "duration_ms": 27.4,
+          "side_effect_state": "none",
+          "automatic_retry": false
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_lead_order_rate_001",
+          "dataset_id": "ds_order_001",
+          "service_run_id": "srv_attribution_001",
+          "metric_name": "linked_lead_to_order_rate",
+          "metric_value": 0.18,
+          "unit": "ratio",
+          "scope": {"relation_scope": "stable_lead_id_hash_only"},
+          "calculation": "linked_orders / linkable_leads",
+          "statement": "在具有稳定脱敏关联键的合成记录中，线索至订单转化率为 18.0%。",
+          "synthetic": true,
+          "data_quality_status": "partial"
+        }
+      ],
+      "findings": [
+        {
+          "finding_id": "finding_attribution_001",
+          "category": "attribution",
+          "severity": "attention",
+          "statement": "合成样例只支持对具有稳定 lead_id_hash 的覆盖记录进行归因。",
+          "evidence_ids": ["ev_lead_order_rate_001"],
+          "confidence": 0.8,
+          "limitations": ["未关联记录不进入归因分母。", "缺少成本字段，不能计算 ROI。"]
+        }
+      ],
+      "missing_evidence": ["cost_fields_missing_roi_blocked"],
+      "assumptions": []
+    }
+  ],
+  "decision_packet": {
+    "schema_version": "1.0",
+    "message_type": "decision_packet",
+    "workflow_run_id": "wf_commerce_synthetic_001",
+    "decision_run_id": "decision_commerce_001",
+    "agent_role": "commerce_review_strategist",
+    "source_analysis_ids": [
+      "analysis_content_001",
+      "analysis_live_001",
+      "analysis_attribution_001"
+    ],
+    "terminal_status": "completed",
+    "actions": [
+      {
+        "action_id": "action_content_001",
+        "priority": "high",
+        "finding_ids": ["finding_content_click_001"],
+        "evidence_ids": ["ev_content_click_rate_001"],
+        "action": "复核高曝光低点击内容的封面、标题与承接入口，并在下一批同口径内容中做对照。",
+        "owner_role": "内容运营",
+        "due_window": "下一批内容发布前",
+        "rationale": "动作直接对应已观察到的点击承接问题，不把原因写成已证实事实。",
+        "verification_metric": {
+          "name": "content_click_rate",
+          "direction": "increase",
+          "baseline": 0.024,
+          "target": null,
+          "unit": "ratio",
+          "check_after": "下一批同口径内容发布后",
+          "verification_method": "使用相同曝光与点击口径重新计算并与合成基线分开记录。",
+          "dataset_ids": ["ds_video_001"],
+          "requires_cost_data": false
+        },
+        "guardrails": ["不得承诺未经实验验证的提升幅度。"],
+        "confidence": 0.76
+      },
+      {
+        "action_id": "action_live_001",
+        "priority": "medium",
+        "finding_ids": ["finding_live_lead_001"],
+        "evidence_ids": ["ev_live_lead_rate_001"],
+        "action": "按场次复核直播留资入口、讲解节点和流量结构，再确定需要调整的环节。",
+        "owner_role": "直播运营",
+        "due_window": "下一场直播方案确认前",
+        "rationale": "当前只有漏斗现象，没有足够证据把原因归于某个执行动作。",
+        "verification_metric": {
+          "name": "live_lead_rate",
+          "direction": "observe",
+          "baseline": 0.08,
+          "target": null,
+          "unit": "ratio",
+          "check_after": "下一场可比直播结束后",
+          "verification_method": "按相同观看与留资分母复算，并记录场次差异。",
+          "dataset_ids": ["ds_live_001"],
+          "requires_cost_data": false
+        },
+        "guardrails": ["没有可比样本时只记录，不下趋势结论。"],
+        "confidence": 0.72
+      },
+      {
+        "action_id": "action_lead_001",
+        "priority": "high",
+        "finding_ids": ["finding_attribution_001"],
+        "evidence_ids": ["ev_lead_order_rate_001"],
+        "action": "补齐未关联线索的来源键并核对跟进记录，再重新计算覆盖范围内的线索至订单转化。",
+        "owner_role": "渠道与销售运营",
+        "due_window": "本次复盘后两个工作日内",
+        "rationale": "先提高可关联证据覆盖率，避免把未关联订单错误归因。",
+        "verification_metric": {
+          "name": "lead_order_linkage_coverage",
+          "direction": "increase",
+          "baseline": 0.88,
+          "target": null,
+          "unit": "ratio",
+          "check_after": "关联键补齐后",
+          "verification_method": "统计具有稳定 lead_id_hash 的订单占比并单列未关联记录。",
+          "dataset_ids": ["ds_lead_001", "ds_order_001"],
+          "requires_cost_data": false
+        },
+        "guardrails": ["不得根据线索数量直接评价销售人员能力。", "不得计算 ROI。"],
+        "confidence": 0.8
+      }
+    ],
+    "blocked_reasons": []
+  },
+  "delivery_package": {
+    "schema_version": "1.0",
+    "message_type": "delivery_package",
+    "workflow_run_id": "wf_commerce_synthetic_001",
+    "supervisor_role": "commerce_ops_supervisor",
+    "terminal_status": "partial",
+    "analysis_refs": [
+      "analysis_content_001",
+      "analysis_live_001",
+      "analysis_attribution_001"
+    ],
+    "decision_ref": "decision_commerce_001",
+    "headline": "合成演示：内容承接、直播留资和线索关联覆盖需要分别复核",
+    "executive_summary": "本交付包只验证一主四专的数据契约与证据引用，不代表 MiniClaw Agent 已运行或真实经营结论。",
+    "finding_refs": [
+      "finding_content_click_001",
+      "finding_live_lead_001",
+      "finding_attribution_001"
+    ],
+    "action_refs": ["action_content_001", "action_live_001", "action_lead_001"],
+    "unresolved_items": ["缺少成本字段，ROI 计算保持 blocked。"],
+    "trace_refs": [
+      {
+        "trace_id": "trace_supervisor_001",
+        "actor_role": "commerce_ops_supervisor",
+        "run_id": "wf_commerce_synthetic_001",
+        "parent_run_id": null
+      },
+      {
+        "trace_id": "trace_content_001",
+        "actor_role": "content_growth_analyst",
+        "run_id": "analysis_content_001",
+        "parent_run_id": "wf_commerce_synthetic_001"
+      },
+      {
+        "trace_id": "trace_live_001",
+        "actor_role": "live_conversion_analyst",
+        "run_id": "analysis_live_001",
+        "parent_run_id": "wf_commerce_synthetic_001"
+      },
+      {
+        "trace_id": "trace_attribution_001",
+        "actor_role": "attribution_lead_analyst",
+        "run_id": "analysis_attribution_001",
+        "parent_run_id": "wf_commerce_synthetic_001"
+      },
+      {
+        "trace_id": "trace_strategy_001",
+        "actor_role": "commerce_review_strategist",
+        "run_id": "decision_commerce_001",
+        "parent_run_id": "wf_commerce_synthetic_001"
+      }
+    ],
+    "requires_human_confirmation": true
+  },
+  "error_example": {
+    "schema_version": "1.0",
+    "message_type": "workflow_error",
+    "workflow_run_id": "wf_commerce_synthetic_001",
+    "stage": "analysis",
+    "code": "COST_FIELD_MISSING",
+    "retryable": false,
+    "outcome_uncertain": false,
+    "human_action": "补充经过授权且口径明确的成本字段后，重新执行数据检查，再决定是否允许计算 ROI。",
+    "safe_message": "当前数据没有成本字段，本次分析不会计算 ROI。"
+  }
+}

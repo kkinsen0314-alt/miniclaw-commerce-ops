@@ -1,0 +1,19 @@
+{
+  "workflow_run_id": "wf_eval_duplicate_dataset",
+  "caller_role": "content_growth_analyst",
+  "requested_domains": ["content_growth"],
+  "data_refs": [
+    {
+      "dataset_id": "ds_duplicate",
+      "dataset_type": "short_video",
+      "file_path": "data/fixtures/short_video/synthetic-short-video.csv",
+      "synthetic": true
+    },
+    {
+      "dataset_id": "ds_duplicate",
+      "dataset_type": "short_video",
+      "file_path": "data/fixtures/short_video/synthetic-short-video.csv",
+      "synthetic": true
+    }
+  ]
+}

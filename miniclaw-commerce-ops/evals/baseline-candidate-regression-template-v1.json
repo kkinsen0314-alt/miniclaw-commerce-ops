@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "record_type": "commerce_ops_eval_regression_report",
+  "template_status": "template_not_executed",
+  "status": "not_executed",
+  "generated_at": null,
+  "baseline_eval_run_id": null,
+  "candidate_eval_run_id": null,
+  "same_dataset_sha256": null,
+  "same_fixture_versions": null,
+  "version_differences": {
+    "prompt": [],
+    "model": [],
+    "tool_description": [],
+    "context_strategy": [],
+    "other": []
+  },
+  "regressed_case_ids": [],
+  "improved_case_ids": [],
+  "critical_regressions": [],
+  "metric_deltas": {
+    "hard_gate_pass_rate": null,
+    "final_case_pass_rate": null,
+    "end_to_end_latency_p95_relative_change": null,
+    "estimated_cost_relative_change": null
+  },
+  "performance_warnings": [],
+  "comparison_decision": "not_evaluated",
+  "comparison_reasons": [],
+  "evidence_boundary": {
+    "comparison_only": true,
+    "does_not_create_agent_runs": true,
+    "null_metrics_are_not_treated_as_zero": true
+  }
+}
+
